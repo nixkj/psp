@@ -68,7 +68,8 @@ psp_control <- function(radius = 0.1, init, lower, upper,
                         object_names = NULL, lib_names = NULL) {
     if (parallel == TRUE && is.null(cl)) {
         #no_cores <- parallel::detectCores()
-        no_cores <- Rmpi::mpi.universe.size() - 1
+        #no_cores <- Rmpi::mpi.universe.size() - 1
+        no_cores <- 7
         cl <- parallel::makeCluster(no_cores, type = "MPI")
         print(cl)
     } else if (parallel == TRUE && !is.null(cl)) {
