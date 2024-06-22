@@ -67,16 +67,12 @@ psp_control <- function(radius = 0.1, init, lower, upper,
 .parallelize <- function(parallel = FALSE, cl = NULL,
                         object_names = NULL, lib_names = NULL) {
     if (parallel == TRUE && is.null(cl)) {
-        no_cores <- parallel::detectCores()
-        cl <- parallel::makeCluster(no_cores)
+        #no_cores <- parallel::detectCores()
+        no_cores <- Rmpi::mpi.universe.size() - 1
+        cl <- parallel::makeCluster(no_cores, type = "MPI")
+        print(cl)
     } else if (parallel == TRUE && !is.null(cl)) {
-        if (cl == "MPI") {
-            print(Rmpi::mpi.universe.size() - 1)
-            cl <- makeCluster(Rmpi::mpi.universe.size() - 1, type = "MPI")
-            print(cl)
-        } else {
-            cl <- parallel::makeCluster(cl)
-        }
+        cl <- parallel::makeCluster(cl)
     }
 
     # HACK: code is clumsy
