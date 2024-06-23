@@ -73,7 +73,8 @@ psp_control <- function(radius = 0.1, init, lower, upper,
         cl <- parallel::makeCluster(no_cores, type = "MPI")
         print(paste("cl: ", cl))
     } else if (parallel == TRUE && !is.null(cl)) {
-        cl <- parallel::makeCluster(cl)
+        #cl <- parallel::makeCluster(cl)
+        cl <- parallel::makeCluster(cl, type = "MPI")
     }
 
     # HACK: code is clumsy
