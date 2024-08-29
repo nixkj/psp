@@ -84,7 +84,7 @@ psp_control <- function(radius = 0.1, init, lower, upper,
             # You can specify the number of cores per node or let it use all allocated
             cl <- makePSOCKcluster(rep(nodes, each = 4))  # Adjust the 'each' value for cores per node
         } else if (cl == "MPI") {
-            cl <- getMPIcluster()
+            cl <- makeCluster()
         } else {
             cl <- parallel::makeCluster(cl)
         }
