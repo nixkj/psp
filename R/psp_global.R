@@ -86,6 +86,21 @@ psp_control <- function(radius = 0.1, init, lower, upper,
             # Set up a PSOCK cluster across the nodes
             # You can specify the number of cores per node or let it use all allocated
             cl <- makePSOCKcluster(rep(nodes, each = 4))  # Adjust the 'each' value for cores per node
+        else if (cl == "MPI") {
+            # Step 1: Access the SLURM_NODELIST environment variable
+            nodelist <- Sys.getenv("SLURM_NODELIST")
+
+            # Step 2: Expand the node list using the scontrol command
+            expanded_nodes <- system(paste("scontrol show hostname", nodelist), intern = TRUE)
+
+            # Step 3: Convert the output into an R list (vector in R)
+            nodes<- as.list(expanded_nodes)
+
+            # Print the list
+            print(nodes)
+
+            cl <- makeCluster(type = "MPI", master = NULL, hosts = rep(nodes, each = 4))
+
         } else {
             cl <- parallel::makeCluster(cl)
         }
