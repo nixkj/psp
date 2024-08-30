@@ -70,7 +70,7 @@ psp_control <- function(radius = 0.1, init, lower, upper,
         no_cores <- parallel::detectCores()
         cl <- parallel::makeCluster(no_cores)
     } else if (parallel == TRUE && !is.null(cl)) {
-        if (cl == "socks") {
+        if (cl == "slurmsocks") {
             nodelist <- Sys.getenv("SLURM_NODELIST")
             expanded_nodes <- system(paste("scontrol show hostname", nodelist), intern = TRUE)
             nodes <- as.list(expanded_nodes)
